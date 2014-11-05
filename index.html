@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="google" value="notranslate">
+  <title>Blockly : KasmTest</title>
+ <script type="text/javascript" src="blockly_compressed.js"></script>
+    <!..script type="text/javascript" src="blocks_compressed.js"></script>
+	<script type="text/javascript" src="javascript_compressed.js"></script>
+    <script type="text/javascript" src="kasm51.js"></script>
+	<script type= "text/javascript" src="kasm51/generators/math.js"></script>
+	<script type= "text/javascript" src="kasm51/generators/output.js"></script>
+	<script type= "text/javascript" src="kasm51/blocks/math.js"></script>
+	<script type= "text/javascript" src="kasm51/blocks/output.js"></script>
+	<script type="text/javascript" src="en.js"></script> 
+	<script type="text/javascript" src="FileSaver.js"></script> 
+  
+   <script type="text/javascript">
+   
+ 
+  
+   
+   
+    
+   
+   function getCode()
+   {
+  
+   var c = Blockly.Kasm51.workspaceToCode()
+   document.getElementById("codearea").value=c;
+ //  alert(c);
+   //document.write('<input type=button value=Home onclick=\"window.location= \'index.html\'\"></input>');
+   //document.write('<br/>'+ Blockly.Kasm51.ControllerName+'<br/>');
+   //document.write('<br/><hr/>'+c.replace('\n','<br>'));
+   
+   
+ 
+   
+   }
+   function getXMLCode()
+   {
+     var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
+     var data = Blockly.Xml.domToText(xml);
+     document.getElementById("codearea").value=data;
+	 //BlocklyStorage.makeRequest_('/storage', 'xml', data);
+   
+   
+   }
+   function LoadXMLCode()
+   {
+     var xml='';
+	 try
+	 {
+      xml = Blockly.Xml.textToDom(document.getElementById("codearea").value);
+     }
+	 catch(e)
+	  {
+	    window.alert('Invalid xml');
+        return;		
+	  }
+	 // Clear the workspace to avoid merge.
+     Blockly.getMainWorkspace().clear();
+	 Blockly.Xml.domToWorkspace(Blockly.getMainWorkspace(), xml);
+   
+   
+   }
+   function SaveXMLCode()
+   {
+   
+     var txt = document.getElementById("codearea").value;
+      var blob = new Blob([txt], {type: "text/plain;charset=utf-8"});
+      saveAs(blob, "hello world.xml");
+    
+   
+   }
+   
+   function LoadBasicCode()
+   {
+   
+     var xml_txt = '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="ORG" id="105" inline="false" x="59" y="38"><field name="HUE">290</field><value name="A"><block type="label_text" id="106"><field name="TEXT">0</field></block></value><next><block type="Bit_Output" id="107" inline="true"><field name="MODE">CLR</field><value name="A"><block type="label_text" id="108"><field name="TEXT">P1.0</field></block></value><next><block type="END" id="109"></block></next></block></next></block></xml>';
+	 
+     var xml = Blockly.Xml.textToDom(xml_txt);
+	  Blockly.getMainWorkspace().clear();
+	 Blockly.Xml.domToWorkspace(Blockly.getMainWorkspace(), xml);
+   
+   
+   }
+   </script>
+   
+  
+   <style>
+    body {
+      background-color: #fff;
+      font-family: sans-serif;
+    }
+    h1 {
+      font-weight: normal;
+      font-size: 140%;
+    }
+  </style>
+</head>
+<body onLoad='LoadBasicCode()'>
+<h1 align=center>8051 Blockly</h1>
+<input type=button value="Clear WorkSpace" onclick='Blockly.getMainWorkspace().clear();'/>
+<input type=button value="Get Code" onclick="getCode();">
+<input type=button value="Get XML" onclick="getXMLCode();">
+<input type=button value="Load XML" onclick="LoadXMLCode();">
+<input type=button value="Download XML" onclick="SaveXMLCode();">
+
+ <div id="blocklyDiv" style="height: 700px; width: 80%;"></div>
+ <xml id="toolbox" style="display: KasmTest">
+    <category name='Variables'>
+	  
+	   
+	    <block type="label_text"></block>
+	    <block type="Define_var" ></block>
+		<block type="Define_BIT" ></block>
+	</category>
+	
+	<category name='Label'>
+	  
+	   <block type="short_Assembly"></block>
+	    <block type="ORG"></block>
+	   <block type="END"></block>
+	  
+	   <block type='lookup'></block>
+	   
+	</category>
+	<category name="Output">
+		
+		<block type= 'read_lookup'></block>
+		<block type="Bit_Output" ></block>
+	    <block type="MOV_BLOCK" ></block>
+		
+		
+	
+	</category>
+	<category name="Call & Jump">
+			<block type="ACALL"></block>
+			<block type="JUMP"></block>
+			<block type="BJUMP"></block>
+			<block type="CJUMP"></block>
+			<block type="JZ"></block>
+	</category>
+	<category name="Math">
+	<block type="ALU_INS"></block>
+	<block type="math_number"></block>
+	<!..block type="math_arithmetic"></block>
+	<!..block type="math_modulo"></block>
+	
+	</category>
+	
+	<category name="Loops">
+			<block type="DJNZ"></block>
+			<block type="RET"></block>
+			<block type="RETI"></block>
+			
+	
+	</category>
+	
+ </xml>
+
+
+  <script type="text/javascript">
+    Blockly.inject(document.getElementById('blocklyDiv'),
+        {path: './', toolbox: document.getElementById('toolbox')});
+  </script>
+  <DIV ID='CODE'>
+     <textarea id='codearea' rows="40" cols="100"> </textarea>
+  </DIV>
+  
+</body>
+</html>
